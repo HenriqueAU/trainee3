@@ -1,61 +1,54 @@
-import {
-  Injectable,
-  NotFoundException,
-  ConflictException,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import type { Database } from 'better-sqlite3';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './interfaces/user.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
+    @Inject('DB')
+    private readonly db: Database,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const exists = await this.usersRepository.findOneBy({
-      email: createUserDto.email,
-    });
+  create(createUserDto: CreateUserDto): User {
+    const stmt = this.db.prepare(
+      'INSERT INTO users (name, email) VALUES (?, ?)',
+    );
 
-    if (exists) {
-      throw new ConflictException('Email já cadastrado');
-    }
+    const result = stmt.run(createUserDto.name, createUserDto.email);
 
-    const user = this.usersRepository.create(createUserDto);
-    return this.usersRepository.save(user);
+    return {
+      id: Number(result.lastInsertRowid),
+      ...createUserDto,
+    };
   }
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  findAll(): User[] {
+    return this.db.prepare('SELECT * FROM users').all() as User[];
   }
 
-  async findOne(id: number): Promise<User> {
-    const user = await this.usersRepository.findOneBy({ id });
-
-    if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
-    }
-
-    return user;
+  findOne(id: number): User | undefined {
+    return this.db.prepare('SELECT * FROM users WHERE id = ?').get(id) as
+      | User
+      | undefined;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = await this.findOne(id);
+  update(id: number, updateUserDto: UpdateUserDto): User | undefined {
+    const stmt = this.db.prepare(
+      `UPDATE users 
+      SET name = COALESCE(?, name),
+          email = COALESCE(?, email)
+      WHERE id = ?`,
+    );
 
-    Object.assign(user, updateUserDto);
+    stmt.run(updateUserDto.name ?? null, updateUserDto.email ?? null, id);
 
-    return this.usersRepository.save(user);
+    return this.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
-    const result = await this.usersRepository.delete(id);
-
-    if (result.affected === 0) {
-      throw new NotFoundException('Usuário não encontrado');
-    }
+  remove(id: number) {
+    this.db.prepare('DELETE FROM users WHERE id = ?').run(id);
+    return { deleted: true };
   }
 }
