@@ -1,0 +1,187 @@
+<section>
+  <h1>Criação de cadastro interno da empresa</h1>
+  <form #meuForm="ngForm" (ngSubmit)="onSubmit(meuForm)">
+    <p>
+      <label for="primeiroNomeUsuario">Nome:</label>
+      <input type="text"
+      name="primeiroNomeUsuario"
+      id="primeiroNomeUsuario"
+      [(ngModel)]="usuario.primeiroNomeUsuario"
+      #primeiroNomeRef="ngModel"
+      required
+      minlength="3">
+      @if(primeiroNomeRef.invalid && primeiroNomeRef.touched) {
+        @if(primeiroNomeRef.errors?.['required']) {
+          <span>Campo "Nome" obrigatório!</span>
+        }
+        @if(primeiroNomeRef.errors?.['minlength']) {
+          <span>Mínimo de 3 caracteres</span>
+        }
+      }
+    </p>
+    <p>
+      <label for="sobrenomeUsuario">Sobrenome:</label>
+      <input type="text"
+      name="sobrenomeUsuario"
+      id="sobrenomeUsuario"
+      [(ngModel)]="usuario.sobrenomeUsuario"
+      #sobrenomeRef="ngModel"
+      required
+      minlength="3">
+      @if(sobrenomeRef.invalid && sobrenomeRef.touched) {
+        @if(sobrenomeRef.errors?.['required']) {
+          <span>Campo "Sobrenome" obrigatório</span>
+        }
+        @if(sobrenomeRef.errors?.['minlength']) {
+          <span>Mínimo de 3 caracteres</span>
+        }
+      }
+    </p>
+    <p>
+      <label for="email">Email:</label>
+      <input type="email"
+      name="email"
+      id="email"
+      [(ngModel)]="usuario.email"
+      #emailUsuarioRef="ngModel"
+      required
+      email>
+      @if(emailUsuarioRef.invalid && emailUsuarioRef.touched) {
+        @if(emailUsuarioRef.errors?.['required']) {
+          <span>Email obrigatório</span>
+        }
+        @if(emailUsuarioRef.errors?.['email']) {
+          <span>Email inválido</span>
+        }
+      }
+    </p>
+    <p>
+      <label for="senha">Senha:</label>
+      <input type="password"
+      name="senha"
+      id="senha"
+      [(ngModel)]="usuario.senha"
+      #senhaUsuarioRef="ngModel"
+      required
+      minlength="8">
+      @if(senhaUsuarioRef.invalid && senhaUsuarioRef.touched) {
+        @if(senhaUsuarioRef.errors?.['required']) {
+          <span>Campo "Senha" obrigatório</span>
+        }
+        @if(senhaUsuarioRef.errors?.['minlength']) {
+          <span>Senha deve ter no mínimo 8 caracteres</span>
+        }
+      }
+    </p>
+    <p>
+      <label for="estadoCivilUsuario">Estado civil:</label>
+      <input type="radio" value="Solteiro" name="estadoCivilUsuario" id="estadoCivilUsuario" [(ngModel)]="usuario.estadoCivilUsuario"> Solteiro
+      <input type="radio" value="Casado" name="estadoCivilUsuario" id="estadoCivilUsuario" [(ngModel)]="usuario.estadoCivilUsuario"> Casado
+      <input type="radio" value="Outros" name="estadoCivilUsuario" id="estadoCivilUsuario" [(ngModel)]="usuario.estadoCivilUsuario" #estadoCivilRef="ngModel" required> Outros
+    </p>
+    @if(estadoCivilRef.invalid && estadoCivilRef.touched) {
+      @if(estadoCivilRef.errors?.['required']) {
+        <span>Escolha obrigatória</span>
+      }
+    }
+    <!-- Não da pra validar input de arquivos sem fugir do modelo template-driven, seria necessário criar lógica no componente -->
+    @if(usuario.estadoCivilUsuario === 'Casado') {
+        <label for="ifCasado">Anexe sua certidão de casamento:</label>
+        <input type="file"
+        name="ifCasado"
+        id="ifCasado"
+        ngModel
+        #ifCasadoRef="ngModel"
+        required>
+        @if(ifCasadoRef.invalid && ifCasadoRef.touched) {
+          @if(ifCasadoRef.errors?.['required']){
+            <span>Certificado de casamento obrigatório</span>
+          }
+        }
+      }
+    <p>
+      <label for="maiorDeIdade">Maior de 18 anos: </label>
+      <input type="checkbox"
+      name="maiorDeIdade"
+      id="maiorDeIdade"
+      [(ngModel)]="usuario.maiorDeIdade"
+      #maiorDeIdadeRef="ngModel"
+      required> Sim
+      @if(maiorDeIdadeRef.invalid && maiorDeIdadeRef.touched) {
+        <span>Confirmação obrigatória</span>
+      }
+    </p>
+    <p>
+      <label for="dataAdmissao">Data de admissão:</label>
+      <input type="date"
+      name="dataAdmissao"
+      id="dataAdmissao"
+      [(ngModel)]="usuario.dataAdmissao"
+      #dataAdmissaoRef="ngModel"
+      required>
+      @if(dataAdmissaoRef.invalid && dataAdmissaoRef.touched) {
+        @if(dataAdmissaoRef.errors?.['required']) {
+          <span>Data de admissão obrigatória</span>
+        }
+      }
+    </p>
+        <div ngModelGroup="enderecoUsuario">
+          <p>
+            <label for="cidadeUsuario">Cidade:</label>
+            <input type="text"
+            name="cidadeUsuario"
+            [(ngModel)]="usuario.enderecoUsuario.cidadeUsuario"
+            #cidadeRef="ngModel"
+            required
+            minlength="3"
+            >
+            @if(cidadeRef.invalid && cidadeRef.touched) {
+              @if(cidadeRef.errors?.['required']) {
+                <span>Cidade obrigatória</span>
+              }
+              @if(cidadeRef.errors?.['minlength']) {
+                <span>Mínimo de 3 caracteres</span>
+              }
+            }
+          </p>
+          <p>
+            <label for="ruaUsuario">Rua:</label>
+            <input type="text"
+            name="ruaUsuario"
+            [(ngModel)]="usuario.enderecoUsuario.ruaUsuario"
+            #ruaRef="ngModel"
+            required
+            minlength="3">
+            @if(ruaRef.invalid && ruaRef.touched) {
+              @if(ruaRef.errors?.['required']) {
+                <span>Rua obrigatória</span>
+              }
+              @if(ruaRef.errors?.['minlength']) {
+                <span>Mínimo de 3 caracteres</span>
+              }
+            }
+          </p>
+          <p>
+            <label for="cepUsuario">CEP:</label>
+            <input type="text",
+            name="cepUsuario"
+            [(ngModel)]="usuario.enderecoUsuario.cepUsuario"
+            #cepRef="ngModel"
+            required
+            pattern="[0-9]{5}-?[0-9]{3}">
+            @if(cepRef.invalid && cepRef.touched) {
+              @if(cepRef.errors?.['required']) {
+                <span>CEP obrigatório</span>
+              }
+              @if(cepRef.errors?.['pattern']) {
+                <span>CEP inválido, formato esperado: 00000-000</span>
+              }
+            }
+          </p>
+        </div>
+    <p>
+      <input type="submit" value="Enviar" [disabled]="meuForm.invalid">
+    </p>
+  </form>
+</section>
+<router-outlet/>

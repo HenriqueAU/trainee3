@@ -1,0 +1,106 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+section {
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+h1 {
+  margin-bottom: 24px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+p {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+label {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="date"] {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  border-color: #555;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+}
+
+input.ng-valid.ng-touched {
+  border-color: #2ecc71;
+}
+
+span {
+  font-size: 0.8rem;
+  color: #e74c3c;
+  margin-top: 4px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 6px;
+  position: relative;
+  top: 15px;
+}
+
+input[type="submit"] {
+  margin-top: 8px;
+  padding: 10px 24px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+input[type="submit"]:hover:not(:disabled) {
+  background-color: #555;
+}
+
+input[type="submit"]:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+div[ngModelGroup] {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
