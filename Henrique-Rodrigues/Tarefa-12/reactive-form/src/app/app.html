@@ -1,0 +1,160 @@
+<h1>Criação de cadastro interno da empresa</h1>
+<form [formGroup]="dataUsuario" (ngSubmit)="onSubmit()">
+  <p>
+    <label for="primeiroNomeUsuario">Nome:</label>
+    <input type="text" id="primeiroNomeUsuario" formControlName="primeiroNomeUsuario">
+    @if(f.primeiroNomeUsuario.invalid && f.primeiroNomeUsuario.touched) {
+      @if(f.primeiroNomeUsuario.errors?.['required']){
+        <span>Campo "Nome" obrigatório</span>
+      }
+      @if(f.primeiroNomeUsuario.errors?.['minlength']){
+        <span>Mínimo de três caracteres</span>
+      }
+    }
+  </p>
+  <p>
+    <label for="sobrenomeUsuario">Sobrenome:</label>
+    <input type="text" id="sobrenomeUsuario" formControlName="sobrenomeUsuario">
+    @if(f.sobrenomeUsuario.invalid && f.sobrenomeUsuario.touched) {
+      @if(f.sobrenomeUsuario.errors?.['required']) {
+        <span>Campo "Sobrenome" obrigatório</span>
+      }
+      @if(f.sobrenomeUsuario.errors?.['minlength']) {
+        <span>Mínimo de 3 caracteres</span>
+      }
+    }
+  </p>
+  <p>
+    <label for="email">Email:</label>
+    <input type="email" id="email" formControlName="email">
+    @if(f.email.invalid && f.email.touched) {
+      @if(f.email.errors?.['required']) {
+        <span>Email obrigatório</span>
+      }
+      @if(f.email.errors?.['email']) {
+        <span>Email inválido</span>
+      }
+    }
+  </p>
+  <p>
+    <label for="senha">Senha:</label>
+    <input type="password" id="senha" formControlName="senha">
+    @if(f.senha.invalid && f.senha.touched) {
+      @if(f.senha.errors?.['required']) {
+        <span>Campo "Senha" obrigatório</span>
+      }
+      @if(f.senha.errors?.['minlength']) {
+        <span>Senha deve ter no mínimo 8 caracteres</span>
+      }
+    }
+  </p>
+  <div formArrayName="telefonesUsuario">
+    @for(telefone of telefonesArray.controls; track $index) {
+      <p>
+        <label for="telefonesUsuario">Telefone(s):</label>
+        <input type="text" [formControlName]="$index">
+        @if($index > 0) {
+          <button type="button" (click)="removeTelefone($index)">Remover</button>
+        }
+        @if(telefone.invalid && telefone.touched) {
+          @if(telefone.errors?.['required']) {
+            <span>Telefone obrigatório</span>
+          }
+          @if(telefone.errors?.['minlength']) {
+            <span>Mínimo de 9 caracteres</span>
+          }
+          @if(telefone.errors?.['maxlength']) {
+            <span>Máximo de 15 caracteres</span>
+          }
+          @if(telefone.errors?.['pattern']) {
+            <span>Formato inválido</span>
+          }
+        }
+      </p>
+    }
+  </div>
+  <button type="button" (click)="adicionaTelefone()">Adicionar telefone</button>
+  <p>
+    <label>Estado civil:</label>
+    <input type="radio" value="Solteiro" name="estadoCivilUsuario" formControlName="estadoCivilUsuario"> Solteiro
+    <input type="radio" value="Casado" name="estadoCivilUsuario" formControlName="estadoCivilUsuario"> Casado
+    <input type="radio" value="Outros" name="estadoCivilUsuario" formControlName="estadoCivilUsuario"> Outros
+  </p>
+  @if(f.estadoCivilUsuario.invalid) {
+    @if(f.estadoCivilUsuario.errors?.['required']) {
+      <span>Escolha obrigatória</span>
+    }
+  }
+  @if(f.estadoCivilUsuario.value === 'Casado') {
+    <p>
+      <label for="certidaoCasamento">Anexe sua certidão de casamento:</label>
+      <input type="file" id="certidaoCasamento">
+    </p>
+  }
+  <p>
+    <label for="maiorDeIdade">Maior de 18 anos:</label>
+    <input type="checkbox" id="maiorDeIdade" formControlName="maiorDeIdade"> Sim
+  </p>
+  @if(f.maiorDeIdade.invalid && f.maiorDeIdade.touched) {
+    <span>Confirmação obrigatória</span>
+  }
+  <p>
+    <label for="dataAdmissao">Data de admissão:</label>
+    <input type="date" id="dataAdmissao" formControlName="dataAdmissao">
+    @if(f.dataAdmissao.invalid && f.dataAdmissao.touched) {
+      @if(f.dataAdmissao.errors?.['required']) {
+        <span>Data de admissão obrigatória</span>
+      }
+    }
+  </p>
+  <div formGroupName="enderecoUsuario">
+    <p>
+      <label for="cidadeUsuario">Cidade:</label>
+      <input type="text" id="cidadeUsuario" formControlName="cidadeUsuario">
+      @if(endereco['cidadeUsuario'].invalid && endereco['cidadeUsuario'].touched) {
+        @if(endereco['cidadeUsuario'].errors?.['required']) {
+          <span>Cidade obrigatória</span>
+        }
+        @if(endereco['cidadeUsuario'].errors?.['minlength']) {
+          <span>Mínimo de 3 caracteres</span>
+        }
+      }
+    </p>
+    <p>
+      <label for="ruaUsuario">Rua:</label>
+      <input type="text" id="ruaUsuario" formControlName="ruaUsuario">
+      @if(endereco['ruaUsuario'].invalid && endereco['ruaUsuario'].touched) {
+        @if(endereco['ruaUsuario'].errors?.['required']) {
+          <span>Rua obrigatória</span>
+        }
+        @if(endereco['ruaUsuario'].errors?.['minlength']) {
+          <span>Mínimo de 3 caracteres</span>
+        }
+      }
+    </p>
+    <p>
+      <label for="cepUsuario">CEP:</label>
+      <input type="text" id="cepUsuario" formControlName="cepUsuario">
+      @if(endereco['cepUsuario'].invalid && endereco['cepUsuario'].touched) {
+        @if(endereco['cepUsuario'].errors?.['required']) {
+          <span>CEP obrigatório</span>
+        }
+        @if(endereco['cepUsuario'].errors?.['pattern']) {
+          <span>CEP inválido, formato esperado: 00000-000</span>
+        }
+      }
+    </p>
+  </div>
+  <div formGroupName="permissoes">
+    @for(permissao of permissoesRecord.controls | keyvalue; track permissao.key) {
+      <p>
+        <label>{{ permissao.key }}</label>
+        <input type="checkbox" [formControlName]="permissao.key">
+      </p>
+    }
+  </div>
+  <p>
+    <input type="submit" value="Enviar" [disabled]="!dataUsuario.valid">
+  </p>
+</form>
+<router-outlet/>
