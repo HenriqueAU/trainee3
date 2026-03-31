@@ -1,0 +1,49 @@
+.header{
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.subheader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1%;
+  padding: 1%;
+}
+
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1%;
+  gap: 1%;
+  margin-left: 15rem;
+  margin-right: 15rem;
+}
+
+.criaAluno{
+  padding: 1.7rem;
+  margin-top: -1.3rem;
+  border-radius: 0.3rem;
+  color: black !important;
+}
+
+mat-form-field{
+  width: 50%;
+}
+
+mat-card{
+  max-width: 20%;
+  margin-bottom: 1.4rem;
+  background-color: white;
+}
+
+mat-card:hover{
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.mensagemNaoEncotrado{
+  width: 100%;
+  text-align: center
+}

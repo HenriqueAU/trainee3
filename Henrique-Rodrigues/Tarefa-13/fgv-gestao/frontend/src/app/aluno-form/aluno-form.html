@@ -1,0 +1,29 @@
+<div>
+  <button class="botaoVoltar" matButton="outlined" (click)="onClickVoltar()">Voltar</button>
+  <h1>Cadastrar novo aluno</h1>
+</div>
+<form [formGroup]="alunoForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Nome</mat-label>
+    <input matInput type="text" id="nome" formControlName="nome">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>CPF 000.000.000-00</mat-label>
+    <input matInput type="text" id="cpf" formControlName="cpf">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Nome do pai</mat-label>
+    <input matInput type="text" id="nomePai" formControlName="nomePai">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Nome da mãe</mat-label>
+    <input matInput type="text" id="nomeMae" formControlName="nomeMae">
+  </mat-form-field>
+    <mat-checkbox class="checkbox" formControlName="necessidadesEspeciais">Marque se seu filho possui alguma necessidade de acompanhamento</mat-checkbox>
+  <mat-form-field appearance="outline">
+    <mat-label>Data de ingressão</mat-label>
+    <input matInput type="date" id="dataEntrada" formControlName="dataEntrada">
+  </mat-form-field>
+  <button matButton="outlined" type="submit" (click)="openSnackBar()" [disabled]="this.alunoForm.invalid">Criar</button>
+</form>
+

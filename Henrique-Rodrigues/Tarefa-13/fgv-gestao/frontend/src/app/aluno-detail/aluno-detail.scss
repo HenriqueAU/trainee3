@@ -1,0 +1,48 @@
+.botaoVoltar{
+  position: absolute;
+  left: 0;
+  margin-left: 5%;
+}
+
+.botao{
+  margin: 0.6rem;
+}
+
+.header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.aluno{
+  display: flex;
+  justify-content: center;
+}
+
+h1{
+  flex: 1;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+}
+
+button{
+  border-radius: 0.3rem;
+  color: black !important;
+}
+
+mat-card{
+  flex-direction: row;
+  min-width: 50%;
+  padding: 4%;
+  gap: 5rem;
+  background-color: white;
+}

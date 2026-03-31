@@ -1,0 +1,63 @@
+<div class="header">
+  <button class="botaoVoltar" matButton="outlined" (click)="onClickVoltar()">Voltar</button>
+  <h1>Detalhes do aluno</h1>
+</div>
+
+@if(aluno().length > 0){
+  <div class="aluno">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{aluno()[0].nome}}</mat-card-title>
+      <mat-card-subtitle>{{aluno()[0].cpf}}</mat-card-subtitle>
+    </mat-card-header>
+      <mat-card-content>
+        <p>Nome do pai: {{aluno()[0].nomePai}}</p>
+        <p>Nome da mãe: {{aluno()[0].nomeMae}}</p>
+        <p>
+          @if(aluno()[0].necessidadesEspeciais === true){
+            Necessidades especiais: Sim
+          }
+          @else {
+            Necessidades especiais: Não
+          }
+        </p>
+        <p>
+          Data de ingressão: {{aluno()[0].dataEntrada | date:'dd/MM/yyyy'}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button class= "botao" matButton="outlined" (click)="onClickEdit()">Editar</button>
+        <button class= "botao" matButton="outlined" (click)="onClickDelete(+this.userId!)">Deletar</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  @if(editando()) {
+  <form [formGroup]="alunoForm" (ngSubmit)="onSubmitEdit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput type="text" id="nome" formControlName="nome">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>CPF 000.000.000-00</mat-label>
+      <input matInput type="text" id="cpf" formControlName="cpf">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nome do pai</mat-label>
+      <input matInput type="text" id="nomePai" formControlName="nomePai">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nome da mãe</mat-label>
+      <input matInput type="text" id="nomeMae" formControlName="nomeMae">
+    </mat-form-field>
+      <mat-checkbox formControlName="necessidadesEspeciais">Marque se seu filho possui alguma necessidade de acompanhamento</mat-checkbox>
+    <mat-form-field appearance="outline">
+      <mat-label>Data de ingressão</mat-label>
+      <input matInput type="date" id="dataEntrada" formControlName="dataEntrada">
+    </mat-form-field>
+    <button class= "botao" matButton="outlined" type="submit" [disabled]="this.alunoForm.invalid">Atualizar</button>
+    <button class= "botao" matButton="outlined" (click)="onClickCancelEdit()">Cancelar</button>
+  </form>
+  }
+} @else {
+  <h1 class="mensagemNaoEncotrado">Aluno não encontrado!</h1>
+}
